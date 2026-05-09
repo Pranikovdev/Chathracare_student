@@ -1,0 +1,1025 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap");
+
+:root {
+  --blue-900: #0b2f6b;
+  --blue-700: #1e40af;
+  --blue-600: #2563eb;
+  --blue-100: #eaf1ff;
+  --orange-500: #f97316;
+  --white: #ffffff;
+}
+
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background: var(--blue-100);
+  color: #0f172a;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  color: var(--blue-900);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.home-vertical-tag {
+  display: block;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  font-size: 68px;
+  line-height: 0.9;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  pointer-events: auto;
+  user-select: none;
+  cursor: default;
+  background: linear-gradient(180deg,
+      rgba(255, 255, 255, 0.82) 8%,
+      rgba(219, 234, 254, 0.78) 40%,
+      rgba(147, 197, 253, 0.72) 68%,
+      rgba(125, 160, 223, 0.7) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.36);
+  opacity: 0.9;
+  text-shadow:
+    0 8px 20px rgba(30, 64, 175, 0.22),
+    0 1px 0 rgba(255, 255, 255, 0.35);
+  transition:
+    background 700ms ease-out,
+    -webkit-text-stroke-color 700ms ease-out,
+    text-shadow 700ms ease-out,
+    opacity 700ms ease-out;
+}
+
+.home-vertical-tag:hover {
+  background: linear-gradient(180deg,
+      rgba(96, 165, 250, 0.68) 0%,
+      rgba(59, 130, 246, 0.8) 46%,
+      rgba(37, 99, 235, 0.9) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1px rgba(219, 234, 254, 0.52);
+  text-shadow:
+    0 10px 20px rgba(15, 23, 42, 0.2),
+    0 0 10px rgba(147, 197, 253, 0.4),
+    0 1px 0 rgba(255, 255, 255, 0.38);
+  opacity: 0.98;
+}
+
+/* Home page minimal motion */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 520ms ease, transform 520ms ease;
+}
+
+.reveal-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-delay-1 {
+  transition-delay: 120ms;
+}
+
+.hero-card-parallax {
+  transform:
+    perspective(900px) rotateX(var(--hero-tilt-x, 0deg)) rotateY(var(--hero-tilt-y, 0deg));
+  transition: transform 180ms ease-out;
+  will-change: transform;
+}
+
+/* Role-based post-login theming */
+.role-theme-student .bg-blue-600 {
+  background-color: var(--orange-500) !important;
+}
+
+.role-theme-student .hover\:bg-blue-500:hover,
+.role-theme-student .hover\:bg-blue-700:hover {
+  background-color: #fb923c !important;
+}
+
+.role-theme-student .focus\:ring-blue-300:focus {
+  --tw-ring-color: color-mix(in srgb, var(--orange-500) 45%, white 55%) !important;
+}
+
+/* Nurse uses base blue/white theme with orange accent actions */
+.role-theme-nurse .bg-blue-600 {
+  background-color: var(--orange-500) !important;
+}
+
+.role-theme-nurse .hover\:bg-blue-500:hover,
+.role-theme-nurse .hover\:bg-blue-700:hover {
+  background-color: #fb923c !important;
+}
+
+.role-theme-nurse .focus\:ring-blue-300:focus {
+  --tw-ring-color: color-mix(in srgb, var(--orange-500) 45%, white 55%) !important;
+}
+
+/* Nurse visual language */
+.role-theme-nurse .nurse-main-bg {
+  background:
+    radial-gradient(1100px 500px at 105% -10%, rgba(37, 99, 235, 0.12), transparent 60%),
+    radial-gradient(800px 450px at -15% 10%, rgba(249, 115, 22, 0.12), transparent 58%),
+    #f5f9ff;
+}
+
+.role-theme-admin .admin-main-bg {
+  background:
+    radial-gradient(1100px 500px at 105% -10%, rgba(37, 99, 235, 0.14), transparent 60%),
+    radial-gradient(800px 450px at -15% 10%, rgba(249, 115, 22, 0.11), transparent 58%),
+    #f5f9ff;
+}
+
+.role-theme-admin .admin-page {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.role-theme-admin .admin-card {
+  width: 100%;
+  position: relative;
+  background: linear-gradient(145deg,
+      rgba(255, 255, 255, 0.86) 0%,
+      rgba(255, 255, 255, 0.78) 100%);
+  backdrop-filter: blur(10px) saturate(130%);
+  -webkit-backdrop-filter: blur(10px) saturate(130%);
+  border: 1px solid rgba(191, 219, 254, 0.85) !important;
+  border-radius: 16px;
+  box-shadow:
+    0 8px 24px rgba(30, 64, 175, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+.role-theme-admin .admin-card:hover {
+  box-shadow:
+    0 10px 30px rgba(30, 64, 175, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.62);
+}
+
+.role-theme-admin .admin-input,
+.role-theme-admin .admin-select,
+.role-theme-admin .admin-textarea {
+  background: #ffffff;
+  border: 1px solid #bfdbfe !important;
+  border-radius: 12px;
+  color: #0f2f6f;
+}
+
+.role-theme-admin .admin-input:focus,
+.role-theme-admin .admin-select:focus,
+.role-theme-admin .admin-textarea:focus {
+  outline: none;
+  border-color: #60a5fa !important;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.25);
+}
+
+.role-theme-admin .admin-btn-primary {
+  background: linear-gradient(135deg, #2563eb 0%, #f97316 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+}
+
+.role-theme-admin .admin-btn-primary:hover {
+  filter: saturate(1.06) brightness(1.02);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(37, 99, 235, 0.25);
+}
+
+.role-theme-admin .admin-btn-secondary {
+  background: #ffffff;
+  color: #1e40af;
+  border: 1px solid #bfdbfe;
+  border-radius: 12px;
+  transition: background-color 180ms ease, border-color 180ms ease;
+}
+
+.role-theme-admin .admin-btn-secondary:hover {
+  background: #eff6ff;
+  border-color: #93c5fd;
+}
+
+.role-theme-student .student-main-bg {
+  background:
+    radial-gradient(1100px 500px at 105% -10%, rgba(37, 99, 235, 0.12), transparent 60%),
+    radial-gradient(800px 450px at -15% 10%, rgba(249, 115, 22, 0.12), transparent 58%),
+    #f5f9ff;
+}
+
+.role-theme-student .student-page {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-size: 15px;
+}
+
+.role-theme-student .student-card {
+  width: 100%;
+  position: relative;
+  background: linear-gradient(145deg,
+      rgba(255, 255, 255, 0.84) 0%,
+      rgba(255, 255, 255, 0.76) 100%);
+  backdrop-filter: blur(10px) saturate(130%);
+  -webkit-backdrop-filter: blur(10px) saturate(130%);
+  border: 1px solid rgba(191, 219, 254, 0.85) !important;
+  border-radius: 20px;
+  box-shadow:
+    0 8px 28px rgba(30, 64, 175, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+.role-theme-student .student-input,
+.role-theme-student .student-select,
+.role-theme-student .student-textarea {
+  background: #ffffff;
+  border: 1px solid #bfdbfe !important;
+  border-radius: 12px;
+  color: #0f2f6f;
+}
+
+.role-theme-student .student-input:focus,
+.role-theme-student .student-select:focus,
+.role-theme-student .student-textarea:focus {
+  outline: none;
+  border-color: #60a5fa !important;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.25);
+}
+
+.role-theme-student .student-btn-primary {
+  background: linear-gradient(135deg, #2563eb 0%, #f97316 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+}
+
+.role-theme-student .student-btn-primary:hover {
+  filter: saturate(1.06) brightness(1.02);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(37, 99, 235, 0.25);
+}
+
+.role-theme-student .student-btn-secondary {
+  background: #ffffff;
+  color: #1e40af;
+  border: 1px solid #bfdbfe;
+  border-radius: 12px;
+  transition: background-color 180ms ease, border-color 180ms ease;
+}
+
+.role-theme-student .student-btn-secondary:hover {
+  background: #eff6ff;
+  border-color: #93c5fd;
+}
+
+.role-theme-nurse .nurse-page {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.role-theme-nurse .nurse-card {
+  width: 100%;
+  position: relative;
+  background: linear-gradient(145deg,
+      rgba(255, 255, 255, 0.84) 0%,
+      rgba(255, 255, 255, 0.76) 100%);
+  backdrop-filter: blur(10px) saturate(130%);
+  -webkit-backdrop-filter: blur(10px) saturate(130%);
+  border: 1px solid rgba(191, 219, 254, 0.85) !important;
+  border-radius: 16px;
+  box-shadow:
+    0 8px 24px rgba(30, 64, 175, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+.role-theme-nurse .nurse-card:hover {
+  box-shadow:
+    0 10px 30px rgba(30, 64, 175, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.62);
+}
+
+.role-theme-nurse .nurse-input,
+.role-theme-nurse .nurse-select,
+.role-theme-nurse .nurse-textarea {
+  background: #ffffff;
+  border: 1px solid #bfdbfe !important;
+  border-radius: 12px;
+  color: #0f2f6f;
+}
+
+.role-theme-nurse .nurse-input:focus,
+.role-theme-nurse .nurse-select:focus,
+.role-theme-nurse .nurse-textarea:focus {
+  outline: none;
+  border-color: #60a5fa !important;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.25);
+}
+
+.role-theme-nurse .nurse-btn-primary {
+  background: linear-gradient(135deg, #2563eb 0%, #f97316 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+}
+
+.role-theme-nurse .nurse-btn-primary:hover {
+  filter: saturate(1.06) brightness(1.02);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(37, 99, 235, 0.25);
+}
+
+.role-theme-nurse .nurse-btn-secondary {
+  background: #ffffff;
+  color: #1e40af;
+  border: 1px solid #bfdbfe;
+  border-radius: 12px;
+  transition: background-color 180ms ease, border-color 180ms ease;
+}
+
+.role-theme-nurse .nurse-btn-secondary:hover {
+  background: #eff6ff;
+  border-color: #93c5fd;
+}
+
+.role-theme-nurse .nurse-sidebar,
+.role-theme-student .student-sidebar,
+.role-theme-admin .admin-sidebar {
+  background: linear-gradient(180deg, #1e3a8a 0%, #1d4ed8 62%, #f97316 185%);
+}
+
+.role-theme-nurse .nurse-sidebar-brand,
+.role-theme-student .nurse-sidebar-brand,
+.role-theme-admin .nurse-sidebar-brand {
+  border-bottom: 1px solid rgba(191, 219, 254, 0.3);
+}
+
+.role-theme-nurse .nurse-nav-link,
+.role-theme-student .nurse-nav-link,
+.role-theme-admin .nurse-nav-link {
+  border-radius: 12px;
+  transition: background-color 180ms ease, transform 180ms ease;
+}
+
+.role-theme-nurse .nurse-nav-link:hover,
+.role-theme-student .nurse-nav-link:hover,
+.role-theme-admin .nurse-nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.13);
+  transform: translateX(2px);
+}
+
+.role-theme-nurse .nurse-nav-link.active,
+.role-theme-student .nurse-nav-link.active,
+.role-theme-admin .nurse-nav-link.active {
+  background: linear-gradient(90deg, rgba(37, 99, 235, 0.95), rgba(249, 115, 22, 0.85));
+}
+
+.role-theme-nurse .nurse-vertical-tag {
+  position: absolute;
+  left: 8px;
+  bottom: 22px;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  font-size: 62px;
+  line-height: 0.9;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  pointer-events: none;
+  user-select: none;
+  color: rgba(255, 255, 255, 0.22);
+  -webkit-text-stroke: 1px rgba(191, 219, 254, 0.45);
+  opacity: 0.92;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.18);
+}
+
+.role-theme-student .student-vertical-tag {
+  position: absolute;
+  left: 8px;
+  bottom: 22px;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  font-size: 70px;
+  line-height: 0.9;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  pointer-events: none;
+  user-select: none;
+  color: rgba(255, 255, 255, 0.22);
+  -webkit-text-stroke: 1px rgba(191, 219, 254, 0.45);
+  opacity: 0.92;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.18);
+}
+
+.role-theme-admin .admin-vertical-tag {
+  position: absolute;
+  left: 8px;
+  bottom: 22px;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  font-size: 66px;
+  line-height: 0.9;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  pointer-events: none;
+  user-select: none;
+  color: rgba(255, 255, 255, 0.22);
+  -webkit-text-stroke: 1px rgba(191, 219, 254, 0.45);
+  opacity: 0.92;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.18);
+}
+
+.role-theme-nurse .nurse-vertical-tag span:first-child {
+  margin-top: 0;
+}
+
+/* Dashboard analytics motion and interaction design */
+.dashboard-fade-up {
+  opacity: 0;
+  transform: translateY(18px) scale(0.98);
+  animation: dashboardFadeUp 560ms cubic-bezier(0.18, 0.84, 0.32, 1) forwards;
+  animation-delay: var(--delay, 0ms);
+}
+
+.analytics-stat-card,
+.analytics-panel {
+  transition: transform 260ms ease, box-shadow 260ms ease, border-color 260ms ease;
+}
+
+.analytics-stat-card:hover,
+.analytics-panel:hover {
+  box-shadow: 0 14px 35px rgba(30, 64, 175, 0.15);
+  border-color: color-mix(in srgb, var(--role-600, #2563eb) 32%, white 68%) !important;
+}
+
+.analytics-icon {
+  transition: transform 260ms ease, filter 260ms ease;
+}
+
+.analytics-stat-card:hover .analytics-icon {
+  transform: translateY(-1px) scale(1.06);
+  filter: saturate(1.08);
+}
+
+.analytics-watermark {
+  transition: transform 300ms ease, opacity 300ms ease;
+}
+
+.analytics-stat-card:hover .analytics-watermark {
+  transform: scale(1.08) rotate(4deg);
+  opacity: 0.9;
+}
+
+.chart-grow-bar {
+  height: var(--bar-height, 0%);
+  transform-origin: bottom;
+  transform: scaleY(0.08);
+  animation: barRise 700ms cubic-bezier(0.24, 0.9, 0.32, 1) forwards;
+  animation-delay: var(--bar-delay, 0ms);
+  transition: transform 220ms ease, filter 220ms ease;
+}
+
+.chart-grow-bar:hover {
+  transform: scaleY(1.03);
+  filter: brightness(1.06);
+}
+
+.health-donut {
+  opacity: 0;
+  transform: scale(0.78) rotate(-140deg);
+  animation: donutPop 920ms cubic-bezier(0.2, 0.95, 0.25, 1) forwards;
+  animation-delay: var(--delay, 0ms);
+}
+
+.legend-chip {
+  transition: transform 220ms ease;
+}
+
+.legend-chip:hover {
+  transform: translateY(-2px);
+}
+
+@keyframes dashboardFadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes barRise {
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes donutPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.78) rotate(-140deg);
+  }
+
+  70% {
+    opacity: 1;
+    transform: scale(1.03) rotate(8deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .reveal-on-scroll,
+  .reveal-on-scroll.is-visible,
+  .home-vertical-tag,
+  .hero-card-parallax {
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  .dashboard-fade-up,
+  .chart-grow-bar,
+  .health-donut {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .analytics-stat-card,
+  .analytics-panel,
+  .analytics-icon,
+  .analytics-watermark,
+  .legend-chip {
+    transition: none !important;
+  }
+}
+
+/* Chrome-like subsection tabs inside Latest Health Screening */
+.role-theme-nurse .latest-subtabs {
+  overflow: visible;
+}
+
+.role-theme-nurse .latest-subtab {
+  position: relative;
+}
+
+.role-theme-nurse .latest-subtab-active {
+  border-bottom-color: transparent !important;
+}
+
+.role-theme-nurse .latest-subtab-active::before,
+.role-theme-nurse .latest-subtab-active::after {
+  content: none;
+  position: absolute;
+  bottom: -1px;
+  width: 14px;
+  height: 14px;
+  background: transparent;
+  pointer-events: none;
+}
+
+.role-theme-nurse .latest-subtab-panel {
+  margin-top: -1px;
+}
+
+/* New Checkup chrome-like section tabs */
+.role-theme-nurse .checkup-tab-strip {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-end;
+  gap: 10px;
+  padding: 14px 16px 0;
+  border-bottom: 1px solid #93c5fd;
+  background: linear-gradient(180deg, rgba(239, 246, 255, 0.88) 0%, rgba(239, 246, 255, 0.38) 100%);
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.role-theme-nurse .checkup-tab-strip::after {
+  content: none;
+}
+
+.role-theme-nurse .checkup-tab-strip::before {
+  content: none;
+}
+
+.role-theme-nurse .checkup-tab {
+  margin-bottom: -1px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  z-index: 0;
+  flex: 0 0 auto;
+  padding: 11px 18px;
+  border-color: #bfdbfe !important;
+  border-bottom-color: transparent !important;
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+  background: #dbeafe !important;
+  color: #1d4ed8 !important;
+  line-height: 1.1;
+}
+
+.role-theme-nurse .checkup-tab-active {
+  background: #ffffff !important;
+  color: #1e3a8a !important;
+  border-color: #60a5fa !important;
+  border-bottom-color: #ffffff !important;
+  box-shadow:
+    0 2px 8px rgba(37, 99, 235, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96);
+  z-index: 2;
+}
+
+.role-theme-nurse .checkup-tab-idle {
+  background: #dbeafe !important;
+  color: #1d4ed8 !important;
+}
+
+.role-theme-nurse .checkup-tab-idle:hover {
+  background: #cfe3ff !important;
+}
+
+.role-theme-nurse .checkup-tab-saved {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: #10b981;
+}
+
+.role-theme-nurse .checkup-tab-content {
+  padding: 24px;
+  border-top: 1px solid rgba(147, 197, 253, 0.35);
+  background: rgba(255, 255, 255, 0.74);
+}
+
+/* Auth input focus cleanup */
+.auth-input-shell:focus-within {
+  border-color: #93c5fd !important;
+  box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.35);
+}
+
+.auth-input-field {
+  outline: none;
+}
+
+.auth-input-field:focus,
+.auth-input-field:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Hero login button: centered, glass border, and subtle color motion */
+.hero-login-shell {
+  position: relative;
+  display: inline-flex;
+  border: 0;
+  padding: 0;
+  border-radius: 9999px;
+  background: transparent;
+  cursor: pointer;
+  overflow: hidden;
+  box-shadow:
+    0 10px 24px rgba(15, 23, 42, 0.28),
+    0 2px 10px rgba(249, 115, 22, 0.22);
+}
+
+.hero-login-shell::before {
+  content: "";
+  position: absolute;
+  inset: -120%;
+  background: conic-gradient(from 0deg,
+      rgba(219, 234, 254, 0.94),
+      rgba(147, 197, 253, 0.9),
+      rgba(249, 115, 22, 0.98),
+      rgba(251, 146, 60, 0.95),
+      rgba(219, 234, 254, 0.94));
+  animation: heroLoginBorderSpin 5s linear infinite;
+}
+
+.hero-login-core {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 172px;
+  padding: 12px 30px;
+  margin: 1.75px;
+  border-radius: 9999px;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1.05rem;
+  line-height: 1;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.06) 100%),
+    linear-gradient(135deg, rgba(234, 88, 12, 0.98) 0%, rgba(249, 115, 22, 0.96) 60%, rgba(251, 146, 60, 0.96) 100%);
+  backdrop-filter: blur(8px) saturate(130%);
+  -webkit-backdrop-filter: blur(8px) saturate(130%);
+  transition: transform 180ms ease, filter 180ms ease;
+}
+
+.hero-login-shell:hover .hero-login-core {
+  transform: translateY(-1px);
+  filter: brightness(1.04);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.26) 0%, rgba(255, 255, 255, 0.09) 100%),
+    linear-gradient(135deg, rgba(249, 115, 22, 0.99) 0%, rgba(234, 88, 12, 0.99) 100%);
+}
+
+@keyframes heroLoginBorderSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Services center-mode slider */
+.services-slider-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.services-slider-copy {
+  max-width: 48rem;
+}
+
+.services-slider-shell {
+  --services-gap: 1rem;
+  --services-closed: 8.5rem;
+  --services-open: 30rem;
+}
+
+.services-slider-controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.services-nav-btn {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 0;
+  border-radius: 9999px;
+  background: rgba(30, 64, 175, 0.12);
+  color: #1d4ed8;
+  font-size: 1.45rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.services-nav-btn:hover {
+  background: #1d4ed8;
+  color: #ffffff;
+}
+
+.services-nav-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.services-slider-wrap {
+  overflow: visible;
+  padding-bottom: 0.45rem;
+}
+
+.services-slider-track {
+  display: flex;
+  gap: var(--services-gap);
+  align-items: flex-start;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 0.75rem;
+}
+
+.services-slider-track::-webkit-scrollbar {
+  display: none;
+}
+
+.services-project-card {
+  position: relative;
+  flex: 0 0 var(--services-closed);
+  height: 24rem;
+  border-radius: 1rem;
+  overflow: hidden;
+  cursor: pointer;
+  transition: flex-basis 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.services-project-card[data-active="true"] {
+  flex-basis: var(--services-open);
+  transform: translateY(-6px);
+  box-shadow: 0 18px 52px rgba(30, 64, 175, 0.33);
+}
+
+.services-project-card-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.56) saturate(68%);
+  transition: transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.3s ease;
+}
+
+.services-project-card:hover .services-project-card-bg {
+  filter: brightness(0.7) saturate(88%);
+  transform: scale(1.05);
+}
+
+.services-project-card-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0;
+  background: linear-gradient(180deg, rgba(10, 23, 57, 0.1) 35%, rgba(10, 23, 57, 0.92) 100%);
+  z-index: 2;
+}
+
+.services-project-card-title {
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1.3rem;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  letter-spacing: 0.01em;
+}
+
+.services-project-card-thumb,
+.services-project-card-desc,
+.services-project-card-btn {
+  display: none;
+}
+
+.services-project-card[data-active="true"] .services-project-card-content {
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.1rem 1.6rem;
+}
+
+.services-project-card[data-active="true"] .services-project-card-title {
+  writing-mode: horizontal-tb;
+  transform: none;
+  font-size: 2rem;
+  margin-bottom: 0.35rem;
+}
+
+.services-project-card[data-active="true"] .services-project-card-thumb,
+.services-project-card[data-active="true"] .services-project-card-desc,
+.services-project-card[data-active="true"] .services-project-card-btn {
+  display: block;
+}
+
+.services-project-card-thumb {
+  width: 118px;
+  height: 220px;
+  border-radius: 0.5rem;
+  object-fit: cover;
+  box-shadow: 0 8px 24px rgba(2, 6, 23, 0.4);
+}
+
+.services-project-card-desc {
+  color: rgba(226, 232, 240, 0.95);
+  font-size: 0.95rem;
+  line-height: 1.45;
+  max-width: 15rem;
+  margin-bottom: 0.7rem;
+}
+
+.services-project-card-btn {
+  border: 0;
+  border-radius: 9999px;
+  padding: 0.55rem 1.2rem;
+  background: #f97316;
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.services-project-card-btn:hover {
+  background: #fb923c;
+}
+
+.services-slider-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: -0.2rem;
+}
+
+.services-slider-dot {
+  width: 12px;
+  height: 12px;
+  border: 0;
+  border-radius: 9999px;
+  background: rgba(30, 64, 175, 0.25);
+  cursor: pointer;
+}
+
+.services-slider-dot.active {
+  background: #f97316;
+  transform: scale(1.15);
+}
+
+@media (max-width: 767px) {
+  .services-slider-shell {
+    --services-closed: 100%;
+    --services-open: 100%;
+    --services-gap: 0.8rem;
+  }
+
+  .services-slider-head {
+    margin-bottom: 1.2rem;
+  }
+
+  .services-slider-controls {
+    justify-content: space-between;
+    margin-bottom: 0.7rem;
+  }
+
+  .services-slider-track {
+    flex-direction: column;
+    scroll-snap-type: y mandatory;
+    padding-bottom: 0.75rem;
+  }
+
+  .services-project-card {
+    height: auto;
+    min-height: 88px;
+    width: 100%;
+  }
+
+  .services-project-card[data-active="true"] {
+    min-height: 300px;
+    transform: none;
+  }
+
+  .services-project-card-content {
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 1rem;
+  }
+
+  .services-project-card-title {
+    writing-mode: horizontal-tb;
+    transform: none;
+    font-size: 1.15rem;
+  }
+
+  .services-project-card[data-active="true"] .services-project-card-content {
+    align-items: flex-start;
+    padding: 1.25rem;
+  }
+
+  .services-project-card[data-active="true"] .services-project-card-title {
+    font-size: 1.55rem;
+  }
+
+  .services-project-card-thumb {
+    width: 120px;
+    height: 180px;
+  }
+}
