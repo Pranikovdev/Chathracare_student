@@ -11,7 +11,7 @@ const roleConfig = {
     subtitle: "Student access for health records and updates.",
     helper: "Use your student ID and date of birth to continue.",
     inputOne: "School Student ID",
-    inputTwo: "DOB (DD/MM/YYYY)",
+    inputTwo: "DOB (DD-MM-YYYY)",
     homePath: "/student/dashboard",
     accent: "from-[#1d4ed8] via-[#1e40af] to-[#f97316]",
     chip: "Student Portal",
@@ -34,6 +34,7 @@ export default function RoleLogin({ role = "student" }) {
   const [consentChecked, setConsentChecked] = useState(false);
   const [lockedMessage, setLockedMessage] = useState("");
   const [resendTimer, setResendTimer] = useState(0);
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     let interval;
@@ -47,6 +48,53 @@ export default function RoleLogin({ role = "student" }) {
   const { login } = useAuth();
   const config = roleConfig[role];
   const isStaff = role === "staff";
+
+  // Validates that DOB is strictly DD-MM-YYYY or DD/MM/YYYY
+  // Returns { valid: true, formatted: "YYYY-MM-DD" } or { valid: false, error: "..." }
+  function parseDob(raw) {
+    const trimmed = raw.trim();
+    const sep = trimmed.includes("/") ? "/" : trimmed.includes("-") ? "-" : null;
+
+    if (!sep) {
+      return { valid: false, error: "Date must be in DD-MM-YYYY format (e.g. 15-08-2005)." };
+    }
+
+    const parts = trimmed.split(sep);
+    if (parts.length !== 3) {
+      return { valid: false, error: "Date must be in DD-MM-YYYY format (e.g. 15-08-2005)." };
+    }
+
+    const [day, month, year] = parts;
+
+    // Reject YYYY-MM-DD: year part should be 4 digits only in the THIRD position
+    // and the FIRST part (day) must be ≤ 2 digits
+    if (day.length === 4) {
+      return { valid: false, error: "Invalid format. Please enter date as DD-MM-YYYY (e.g. 15-08-2005)." };
+    }
+
+    if (year.length !== 4) {
+      return { valid: false, error: "Date must be in DD-MM-YYYY format (e.g. 15-08-2005)." };
+    }
+
+    const d = parseInt(day, 10);
+    const m = parseInt(month, 10);
+    const y = parseInt(year, 10);
+
+    if (isNaN(d) || isNaN(m) || isNaN(y)) {
+      return { valid: false, error: "Date must be in DD-MM-YYYY format (e.g. 15-08-2005)." };
+    }
+
+    if (m < 1 || m > 12) {
+      return { valid: false, error: "Month must be between 01 and 12." };
+    }
+
+    if (d < 1 || d > 31) {
+      return { valid: false, error: "Day must be between 01 and 31." };
+    }
+
+    const formatted = `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+    return { valid: true, formatted };
+  }
 
   async function handleResendOtp() {
     if (resendTimer > 0) return;
@@ -89,17 +137,18 @@ export default function RoleLogin({ role = "student" }) {
         console.log("Navigating to:", nextPath);
         navigate(nextPath);
       } else {
-        // Convert DD-MM-YYYY or DD/MM/YYYY to YYYY-MM-DD for backend
-        let formattedDob = password;
-        if (password && (password.includes("/") || password.includes("-"))) {
-          const sep = password.includes("/") ? "/" : "-";
-          const [day, month, year] = password.split(sep);
-          if (day && month && year && year.length === 4) {
-            formattedDob = `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
-          }
+        // Strictly validate DOB format
+        const dobResult = parseDob(password);
+        if (!dobResult.valid) {
+          setError(dobResult.error);
+          setLoading(false);
+          return;
         }
-        
-        response = await api.post("/auth/student/login", { studentSchoolId: username, dob: formattedDob });
+
+        response = await api.post("/auth/student/login", {
+          studentSchoolId: username,
+          dob: dobResult.formatted,
+        });
 
         if (response.data.mfaRequired) {
           setMfaToken(response.data.mfaToken);
@@ -221,12 +270,13 @@ export default function RoleLogin({ role = "student" }) {
                   placeholder={config.inputOne}
                   icon={<MailIcon />}
                 />
-                <InputField
+                {/* Password field with eye toggle */}
+                <PasswordField
                   value={password}
                   onChange={setPassword}
                   placeholder={config.inputTwo}
-                  icon={<LockIcon />}
-                  type="password"
+                  showPassword={showPassword}
+                  onToggleShow={() => setShowPassword((v) => !v)}
                 />
 
                 {error && (
@@ -279,7 +329,6 @@ export default function RoleLogin({ role = "student" }) {
       {showOtp && (
         <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
           <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl border border-blue-100 overflow-hidden">
-            {/* Modal Header */}
             <div className="bg-gradient-to-r from-blue-600 to-blue-800 p-6 text-white relative overflow-hidden">
               <div className="absolute -right-6 -top-6 w-24 h-24 bg-white/10 rounded-full" />
               <div className="flex items-center gap-3">
@@ -295,7 +344,6 @@ export default function RoleLogin({ role = "student" }) {
               </div>
             </div>
 
-            {/* Modal Body */}
             <div className="p-6">
               {!otpVerified ? (
                 <>
@@ -326,7 +374,7 @@ export default function RoleLogin({ role = "student" }) {
                         className="w-full text-center text-2xl font-bold tracking-[0.4em] border-2 border-blue-200 rounded-2xl py-3 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
                         autoFocus
                       />
-                      
+
                       <div className="flex justify-between items-center mt-3 px-1">
                         <span className="text-xs text-gray-500 font-medium">{resendTimer > 0 ? `Resend OTP in 00:${resendTimer.toString().padStart(2, '0')}` : "Didn't receive the OTP?"}</span>
                         <button
@@ -387,7 +435,6 @@ export default function RoleLogin({ role = "student" }) {
       {showConsent && (
         <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
           <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl border border-blue-100 overflow-hidden animate-fade-in">
-            {/* Modal Header */}
             <div className="bg-gradient-to-r from-blue-600 to-indigo-800 p-6 text-white relative overflow-hidden">
               <div className="absolute -right-6 -top-6 w-24 h-24 bg-white/10 rounded-full" />
               <div className="flex items-center gap-3">
@@ -403,7 +450,6 @@ export default function RoleLogin({ role = "student" }) {
               </div>
             </div>
 
-            {/* Modal Body */}
             <div className="p-6">
               <div className="bg-blue-50 border border-blue-200 rounded-xl px-4 py-4 mb-5 text-sm text-blue-800 leading-relaxed">
                 By acknowledging this consent, you agree that your child is participating in the health and screening activities conducted by the Chathracare Network. You hereby provide your informed consent for the secure collection and processing of their medical vitals and clinical observations.
@@ -452,7 +498,7 @@ export default function RoleLogin({ role = "student" }) {
             <div className="bg-gradient-to-br from-rose-500 via-rose-600 to-red-700 p-8 text-white text-center relative overflow-hidden">
               <div className="absolute -left-10 -bottom-10 w-32 h-32 bg-white/20 rounded-full blur-2xl" />
               <div className="absolute -right-10 -top-10 w-32 h-32 bg-black/10 rounded-full blur-xl" />
-              
+
               <div className="w-24 h-24 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4 border-4 border-white/20 relative z-10 shadow-[0_0_30px_rgba(255,255,255,0.2)] animate-pulse">
                 <svg viewBox="0 0 24 24" className="w-12 h-12 text-white" fill="none" stroke="currentColor" strokeWidth="2">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
@@ -461,14 +507,14 @@ export default function RoleLogin({ role = "student" }) {
               <h2 className="text-2xl font-black tracking-wider relative z-10 uppercase drop-shadow-md">Account Locked</h2>
               <p className="text-rose-100 text-xs mt-1.5 font-bold relative z-10 uppercase tracking-[0.2em] opacity-90">Security Protocol Activated</p>
             </div>
-            
+
             <div className="p-8 text-center bg-slate-50">
               <div className="bg-white border border-slate-200 rounded-2xl p-5 mb-6 shadow-sm">
                 <p className="text-slate-700 font-semibold text-sm leading-relaxed">
                   {lockedMessage}
                 </p>
               </div>
-              
+
               <button
                 type="button"
                 onClick={() => setLockedMessage("")}
@@ -481,6 +527,34 @@ export default function RoleLogin({ role = "student" }) {
         </div>
       )}
     </div>
+  );
+}
+
+// ── Password field with eye toggle ──
+function PasswordField({ value, onChange, placeholder, showPassword, onToggleShow }) {
+  return (
+    <label className="auth-input-shell flex items-center rounded-2xl border border-slate-200 bg-white/95 overflow-hidden shadow-[0_6px_14px_rgba(15,23,42,0.05)] transition">
+      <span className="w-12 h-12 flex items-center justify-center text-slate-500 border-r border-slate-200 bg-slate-50 shrink-0">
+        <LockIcon />
+      </span>
+      <input
+        type={showPassword ? "text" : "password"}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        required
+        className="auth-input-field w-full px-4 py-3.5 bg-transparent text-slate-900 placeholder:text-slate-400 outline-none"
+      />
+      <button
+        type="button"
+        tabIndex={-1}
+        onClick={onToggleShow}
+        className="w-11 h-12 flex items-center justify-center text-slate-400 hover:text-blue-600 transition shrink-0 border-l border-slate-100"
+        aria-label={showPassword ? "Hide password" : "Show password"}
+      >
+        {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+      </button>
+    </label>
   );
 }
 
@@ -516,6 +590,24 @@ function LockIcon() {
     <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2">
       <rect x="4.5" y="10.5" width="15" height="9" rx="2" />
       <path d="M8 10V8a4 4 0 1 1 8 0v2" />
+    </svg>
+  );
+}
+
+function EyeIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+  );
+}
+
+function EyeOffIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M17.94 17.94A10.07 10.07 0 0112 20c-4.477 0-8.268-2.943-9.542-7a10.05 10.05 0 012.324-3.894M9.88 9.88A3 3 0 0114.12 14.12M3 3l18 18" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M6.1 6.1A9.97 9.97 0 002.458 12C3.732 16.057 7.523 19 12 19c1.657 0 3.22-.4 4.6-1.1" />
     </svg>
   );
 }
